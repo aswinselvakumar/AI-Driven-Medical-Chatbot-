@@ -9,12 +9,12 @@
     :root {
       --primary-blue: #4A7BF7;
       --light-blue: #EFF4FF;
-      --light-green: #E6F4EA;
       --text-dark: #333333;
       --text-gray: #777777;
-      --sidebar-gray: #F5F5F5;
+      --text-light-gray: #999999;
       --border-light: #EBEBEB;
       --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --chat-width: 800px;
     }
     
     * {
@@ -32,75 +32,119 @@
       overflow: hidden;
     }
     
-    /* Sidebar */
-    .sidebar {
-      width: 72px;
+    /* Left Sidebar with conversations */
+    .chats-sidebar {
+      width: 260px;
       background-color: white;
       border-right: 1px solid var(--border-light);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 24px 0;
-      transition: width 0.3s ease;
-    }
-    
-    .sidebar:hover {
-      width: 180px;
-    }
-    
-    .logo-small {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-      background-color: var(--light-blue);
-      border-radius: 8px;
-      color: var(--primary-blue);
-      font-weight: bold;
-      margin-bottom: 40px;
-    }
-    
-    .nav-item {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 12px 16px;
-      margin: 4px 0;
-      border-radius: 8px;
-      cursor: pointer;
-      color: var(--text-gray);
-      transition: all 0.2s ease;
+      height: 100vh;
       overflow: hidden;
-      white-space: nowrap;
     }
     
-    .nav-item:hover {
-      background-color: var(--light-blue);
-      color: var(--primary-blue);
+    .chats-header {
+      padding: 20px 16px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     
-    .nav-item.active {
-      background-color: var(--light-blue);
-      color: var(--primary-blue);
+    .chats-title {
+      font-size: 16px;
+      font-weight: 600;
     }
     
-    .nav-item svg {
-      min-width: 20px;
-      margin-right: 12px;
+    .new-chat-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 20px;
+      line-height: 1;
     }
     
-    .nav-text {
-      opacity: 0;
-      transition: opacity 0.3s ease;
+    .new-chat-btn:hover {
+      background-color: #3968E0;
     }
     
-    .sidebar:hover .nav-text {
-      opacity: 1;
-    }
-    
-    .sidebar-spacer {
+    .chat-list {
+      overflow-y: auto;
       flex-grow: 1;
+      padding: 8px;
+    }
+    
+    .chat-item {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      position: relative;
+    }
+    
+    .chat-item:hover {
+      background-color: #F5F5F5;
+    }
+    
+    .chat-item.active {
+      background-color: var(--light-blue);
+    }
+    
+    .chat-item-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .chat-item-preview {
+      font-size: 12px;
+      color: var(--text-gray);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .chat-item-time {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      font-size: 10px;
+      color: var(--text-light-gray);
+    }
+    
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border-light);
+      font-size: 12px;
+      color: var(--text-gray);
+      display: flex;
+      align-items: center;
+    }
+    
+    .user-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background-color: var(--light-blue);
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+      margin-right: 8px;
     }
     
     /* Main Content */
@@ -110,12 +154,14 @@
       flex-direction: column;
       background-color: white;
       position: relative;
+      max-width: calc(100% - 260px);
     }
     
     /* Top Navbar */
     .navbar {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       height: 64px;
       padding: 0 24px;
       border-bottom: 1px solid var(--border-light);
@@ -125,7 +171,7 @@
       display: flex;
       align-items: center;
       font-weight: 600;
-      font-size: 20px;
+      font-size: 18px;
       color: var(--text-dark);
     }
     
@@ -142,22 +188,75 @@
       font-weight: bold;
     }
     
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .navbar-btn {
+      background: none;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: var(--text-gray);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .navbar-btn:hover {
+      border-color: var(--text-gray);
+    }
+    
+    .navbar-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+    
     /* Chat Area */
     .chat-container {
       flex-grow: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 24px 0;
       display: flex;
       flex-direction: column;
       scroll-behavior: smooth;
+      margin: 0 auto;
+      width: 100%;
+      max-width: var(--chat-width);
     }
     
-    .chat-bubble {
-      max-width: 80%;
-      margin-bottom: 16px;
+    .message-wrapper {
+      padding: 0 24px;
+      margin-bottom: 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .message-container {
+      display: flex;
+      margin-bottom: 4px;
+    }
+    
+    .message-bot .message-container {
+      justify-content: flex-start;
+    }
+    
+    .message-user .message-container {
+      justify-content: flex-end;
+    }
+    
+    .message-content {
+      max-width: 85%;
       padding: 12px 16px;
       border-radius: 16px;
       line-height: 1.5;
+      font-size: 15px;
       animation: fadeIn 0.3s ease;
     }
     
@@ -166,18 +265,68 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    .chat-user {
+    .message-user .message-content {
       background-color: var(--primary-blue);
       color: white;
-      align-self: flex-end;
       border-bottom-right-radius: 4px;
     }
     
-    .chat-bot {
+    .message-bot .message-content {
       background-color: #F5F5F5;
       color: var(--text-dark);
-      align-self: flex-start;
       border-bottom-left-radius: 4px;
+    }
+    
+    .message-time {
+      font-size: 11px;
+      color: var(--text-light-gray);
+      margin-top: 2px;
+    }
+    
+    .message-bot .message-time {
+      align-self: flex-start;
+      margin-left: 16px;
+    }
+    
+    .message-user .message-time {
+      align-self: flex-end;
+      margin-right: 16px;
+    }
+    
+    /* Welcome Message */
+    .welcome-message {
+      text-align: center;
+      padding: 60px 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .welcome-logo {
+      width: 64px;
+      height: 64px;
+      background-color: var(--light-blue);
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--primary-blue);
+      font-size: 28px;
+      font-weight: bold;
+      margin: 0 auto 20px;
+    }
+    
+    .welcome-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-dark);
+    }
+    
+    .welcome-subtitle {
+      font-size: 16px;
+      color: var(--text-gray);
+      margin-bottom: 24px;
+      line-height: 1.5;
     }
     
     /* Quick Prompts */
@@ -185,8 +334,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 16px;
-      padding: 0 24px;
+      justify-content: center;
     }
     
     .quick-prompt-btn {
@@ -211,6 +359,10 @@
     .input-container {
       padding: 16px 24px 24px;
       border-top: 1px solid var(--border-light);
+      background-color: white;
+      margin: 0 auto;
+      width: 100%;
+      max-width: var(--chat-width);
     }
     
     .input-box {
@@ -279,178 +431,104 @@
       background-color: #3968E0;
     }
     
-    /* Welcome Screen */
-    .welcome-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      height: 100%;
-      padding: 0 20px;
-    }
-    
-    .welcome-logo {
-      width: 80px;
-      height: 80px;
-      background-color: var(--light-blue);
-      border-radius: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--primary-blue);
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 24px;
-    }
-    
-    .welcome-title {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      color: var(--text-dark);
-    }
-    
-    .welcome-subtitle {
-      font-size: 16px;
-      color: var(--text-gray);
-      max-width: 500px;
-      margin-bottom: 32px;
-      line-height: 1.5;
-    }
-    
-    .suggestions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-      max-width: 500px;
-    }
-    
-    .suggestion-card {
-      background-color: white;
-      border: 1px solid var(--border-light);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-    }
-    
-    .suggestion-card:hover {
-      border-color: var(--primary-blue);
-      box-shadow: var(--shadow-soft);
-    }
-    
-    .suggestion-icon {
-      background-color: var(--light-blue);
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 16px;
-      color: var(--primary-blue);
-    }
-    
-    .suggestion-content {
-      flex-grow: 1;
-    }
-    
-    .suggestion-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--text-dark);
-    }
-    
-    .suggestion-desc {
-      font-size: 14px;
-      color: var(--text-gray);
-    }
-    
-    /* Loading indicator */
+    /* Typing indicator */
     .typing-indicator {
-      display: flex;
-      padding: 8px 12px;
-      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      background-color: #F5F5F5;
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
       margin-bottom: 16px;
+      align-self: flex-start;
     }
     
     .typing-indicator span {
-      height: 8px;
-      width: 8px;
-      background: var(--text-gray);
-      display: block;
+      width: 6px;
+      height: 6px;
+      background-color: var(--text-gray);
       border-radius: 50%;
-      margin-right: 3px;
-      animation: typing 1s infinite;
+      display: inline-block;
+      margin: 0 1px;
+      animation: typingAnimation 1.5s infinite ease-in-out;
     }
     
-    .typing-indicator span:nth-child(1) { animation-delay: 0s; }
-    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
     
-    @keyframes typing {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0); }
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes typingAnimation {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
     }
     
     /* Responsive */
+    @media (max-width: 992px) {
+      .chats-sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        max-width: calc(100% - 240px);
+      }
+    }
+    
     @media (max-width: 768px) {
-      .sidebar {
-        width: 56px;
-      }
-      
-      .sidebar:hover {
-        width: 56px;
-      }
-      
-      .nav-text {
+      .chats-sidebar {
         display: none;
       }
       
-      .chat-bubble {
+      .main-content {
+        max-width: 100%;
+      }
+      
+      .message-content {
         max-width: 90%;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo-small">M</div>
-    <div class="nav-item active">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-      </svg>
-      <span class="nav-text">Home</span>
+  <!-- Left Sidebar with chat history -->
+  <div class="chats-sidebar">
+    <div class="chats-header">
+      <div class="chats-title">Chat History</div>
+      <button class="new-chat-btn">+</button>
     </div>
-    <div class="nav-item">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 11 12 14 22 4"></polyline>
-        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-      </svg>
-      <span class="nav-text">Chat History</span>
+    
+    <div class="chat-list">
+      <div class="chat-item active">
+        <div class="chat-item-title">Health Consultation</div>
+        <div class="chat-item-preview">I've been having headaches after...</div>
+        <div class="chat-item-time">10:30 AM</div>
+      </div>
+      
+      <div class="chat-item">
+        <div class="chat-item-title">Medication Information</div>
+        <div class="chat-item-preview">Can you tell me about side effects...</div>
+        <div class="chat-item-time">Yesterday</div>
+      </div>
+      
+      <div class="chat-item">
+        <div class="chat-item-title">Diet Questions</div>
+        <div class="chat-item-preview">I'm trying to reduce cholesterol...</div>
+        <div class="chat-item-time">Apr 12</div>
+      </div>
+      
+      <div class="chat-item">
+        <div class="chat-item-title">Exercise Advice</div>
+        <div class="chat-item-preview">What exercises are best for back...</div>
+        <div class="chat-item-time">Apr 10</div>
+      </div>
     </div>
-    <div class="nav-item">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-      </svg>
-      <span class="nav-text">Settings</span>
-    </div>
-    <div class="sidebar-spacer"></div>
-    <div class="nav-item">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-      </svg>
-      <span class="nav-text">Profile</span>
+    
+    <div class="sidebar-footer">
+      <div class="user-avatar">U</div>
+      <div>User123@example.com</div>
     </div>
   </div>
 
@@ -460,76 +538,42 @@
     <div class="navbar">
       <div class="navbar-brand">
         <div class="navbar-logo">M</div>
-        MediBot
+        MediBot Health Assistant
+      </div>
+      <div class="navbar-actions">
+        <button class="navbar-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          Feedback
+        </button>
       </div>
     </div>
 
-    <!-- Welcome Screen (shows initially) -->
-    <div class="welcome-screen">
-      <div class="welcome-logo">M</div>
-      <h1 class="welcome-title">Welcome to MediBot</h1>
-      <p class="welcome-subtitle">Your personal healthcare assistant. Ask questions about symptoms, medications, or schedule appointments with healthcare professionals.</p>
+    <!-- Chat Area -->
+    <div class="chat-container" id="chatContainer">
+      <!-- Welcome Message (shows initially then hides after first message) -->
+      <div class="welcome-message" id="welcomeMessage">
+        <div class="welcome-logo">M</div>
+        <h1 class="welcome-title">Welcome to MediBot</h1>
+        <p class="welcome-subtitle">Your personal healthcare assistant. Ask me about symptoms, medications, or general health questions.</p>
+        
+        <div class="quick-prompts">
+          <button class="quick-prompt-btn">How do I manage a fever?</button>
+          <button class="quick-prompt-btn">Common cold remedies</button>
+          <button class="quick-prompt-btn">Headache relief</button>
+          <button class="quick-prompt-btn">Sleep improvement tips</button>
+        </div>
+      </div>
       
-      <div class="suggestions">
-        <div class="suggestion-card">
-          <div class="suggestion-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-          </div>
-          <div class="suggestion-content">
-            <div class="suggestion-title">Book an Appointment</div>
-            <div class="suggestion-desc">Schedule a visit with your doctor or specialist</div>
-          </div>
-        </div>
-        
-        <div class="suggestion-card">
-          <div class="suggestion-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-            </svg>
-          </div>
-          <div class="suggestion-content">
-            <div class="suggestion-title">Check Symptoms</div>
-            <div class="suggestion-desc">Get preliminary guidance on your symptoms</div>
-          </div>
-        </div>
-        
-        <div class="suggestion-card">
-          <div class="suggestion-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
-            </svg>
-          </div>
-          <div class="suggestion-content">
-            <div class="suggestion-title">Talk to a Doctor</div>
-            <div class="suggestion-desc">Connect with a healthcare professional</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Chat Area (hidden initially) -->
-    <div class="chat-container" style="display: none;">
       <!-- Messages will be added here dynamically -->
-    </div>
-
-    <!-- Quick Prompts -->
-    <div class="quick-prompts">
-      <button class="quick-prompt-btn">Book Appointment</button>
-      <button class="quick-prompt-btn">Symptoms Check</button>
-      <button class="quick-prompt-btn">Talk to a Doctor</button>
-      <button class="quick-prompt-btn">Medication Reminder</button>
     </div>
 
     <!-- Input Area -->
     <div class="input-container">
       <div class="input-box">
-        <textarea id="userInput" class="chat-input" placeholder="Type your health question here..." rows="1"></textarea>
+        <textarea class="chat-input" id="userInput" placeholder="Type your health question here..." rows="1"></textarea>
         <div class="input-actions">
           <button class="input-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -538,7 +582,7 @@
               <line x1="12" y1="3" x2="12" y2="15"></line>
             </svg>
           </button>
-          <button id="sendButton" class="send-button">
+          <button class="send-button" id="sendBtn">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="22" y1="2" x2="11" y2="13"></line>
               <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -550,6 +594,16 @@
   </div>
 
   <script>
+    // Format current time as "10:30 AM" format
+    function formatTime() {
+      const now = new Date();
+      return now.toLocaleTimeString('en-US', { 
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true 
+      });
+    }
+    
     // Auto-resize textarea as user types
     const textarea = document.querySelector('.chat-input');
     textarea.addEventListener('input', function() {
@@ -571,99 +625,188 @@
       });
     });
     
-    // Toggle between welcome screen and chat area (for demo)
-    const welcomeScreen = document.querySelector('.welcome-screen');
-    const chatContainer = document.querySelector('.chat-container');
-    const suggestionCards = document.querySelectorAll('.suggestion-card');
+    // Chat functionality
+    const sendButton = document.getElementById('sendBtn');
+    const chatContainer = document.getElementById('chatContainer');
+    const userInput = document.getElementById('userInput');
+    const welcomeMessage = document.getElementById('welcomeMessage');
     
-    suggestionCards.forEach(card => {
-      card.addEventListener('click', function() {
-        welcomeScreen.style.display = 'none';
-        chatContainer.style.display = 'flex';
-        const title = this.querySelector('.suggestion-title').textContent;
-        textarea.value = title;
-        textarea.style.height = 'auto';
-        textarea.style.height = (textarea.scrollHeight) + 'px';
-        textarea.focus();
-      });
-    });
-    
-    // Send button click handler - Modified to work with Flask backend
-    const sendButton = document.querySelector('#sendButton');
-    sendButton.addEventListener('click', sendMessage);
-    
-    // Enter key handler
-    textarea.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
+    // Function to add a new message to the chat
+    function addMessage(message, isUser = false) {
+      // Remove welcome message if present
+      if (welcomeMessage && welcomeMessage.style.display !== 'none') {
+        welcomeMessage.style.display = 'none';
       }
-    });
+      
+      const messageTime = formatTime();
+      
+      const messageWrapper = document.createElement('div');
+      messageWrapper.className = isUser ? 'message-wrapper message-user' : 'message-wrapper message-bot';
+      
+      const messageContainer = document.createElement('div');
+      messageContainer.className = 'message-container';
+      
+      const messageContent = document.createElement('div');
+      messageContent.className = 'message-content';
+      messageContent.innerHTML = message.replace(/\n/g, '<br>');
+      
+      messageContainer.appendChild(messageContent);
+      messageWrapper.appendChild(messageContainer);
+      
+      const timeElement = document.createElement('div');
+      timeElement.className = 'message-time';
+      timeElement.textContent = messageTime;
+      messageWrapper.appendChild(timeElement);
+      
+      chatContainer.appendChild(messageWrapper);
+      
+      // Scroll to the bottom
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
     
-    // Function to send message to Flask backend
-    function sendMessage() {
-      const userInput = document.querySelector('#userInput');
-      if (userInput.value.trim() !== '') {
-        welcomeScreen.style.display = 'none';
-        chatContainer.style.display = 'flex';
-        
-        // Add user message
-        const userMessage = document.createElement('div');
-        userMessage.className = 'chat-bubble chat-user';
-        userMessage.textContent = userInput.value;
-        chatContainer.appendChild(userMessage);
-        
-        // Create typing indicator
-        const typingIndicator = document.createElement('div');
-        typingIndicator.className = 'typing-indicator';
-        typingIndicator.innerHTML = '<span></span><span></span><span></span>';
-        chatContainer.appendChild(typingIndicator);
-        
-        // Scroll to bottom
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-        
-        // Send to backend
+    // Function to show typing indicator
+    function showTypingIndicator() {
+      const indicator = document.createElement('div');
+      indicator.className = 'typing-indicator';
+      indicator.id = 'typingIndicator';
+      
+      for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('span');
+        indicator.appendChild(dot);
+      }
+      
+      chatContainer.appendChild(indicator);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // Function to hide typing indicator
+    function hideTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      if (indicator) {
+        indicator.remove();
+      }
+    }
+    
+    // Function to send message to backend and get response
+    async function sendMessage(message) {
+      try {
+        // Create form data
         const formData = new FormData();
-        formData.append('msg', userInput.value);
+        formData.append('msg', message);
         
-        fetch('/get', {
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Send request to backend
+        const response = await fetch('/get', {
           method: 'POST',
           body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-          // Remove typing indicator
-          chatContainer.removeChild(typingIndicator);
-          
-          // Add bot response
-          const botMessage = document.createElement('div');
-          botMessage.className = 'chat-bubble chat-bot';
-          botMessage.innerHTML = data;
-          chatContainer.appendChild(botMessage);
-          
-          // Scroll to bottom again
-          chatContainer.scrollTop = chatContainer.scrollHeight;
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          // Remove typing indicator
-          chatContainer.removeChild(typingIndicator);
-          
-          // Add error message
-          const errorMessage = document.createElement('div');
-          errorMessage.className = 'chat-bubble chat-bot';
-          errorMessage.innerHTML = "Sorry, there was an error processing your request.";
-          chatContainer.appendChild(errorMessage);
-          
-          // Scroll to bottom again
-          chatContainer.scrollTop = chatContainer.scrollHeight;
         });
+        
+        // Get response text
+        const responseText = await response.text();
+        
+        // Hide typing indicator
+        hideTypingIndicator();
+        
+        // Add bot response to chat
+        addMessage(responseText);
+        
+        // Update sidebar chat preview
+        const activeChatPreview = document.querySelector('.chat-item.active .chat-item-preview');
+        if (activeChatPreview) {
+          activeChatPreview.textContent = message.substring(0, 25) + (message.length > 25 ? '...' : '');
+        }
+        
+      } catch (error) {
+        console.error('Error:', error);
+        hideTypingIndicator();
+        addMessage('Sorry, I encountered an error. Please try again later.');
+      }
+    }
+    
+    // Send button click handler
+    sendButton.addEventListener('click', function() {
+      const message = userInput.value.trim();
+      
+      if (message !== '') {
+        // Add user message to chat
+        addMessage(message, true);
+        
+        // Send message to backend
+        sendMessage(message);
         
         // Clear input
         userInput.value = '';
         userInput.style.height = 'auto';
       }
-    }
+    });
+    
+    // Enter key handler
+    userInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendButton.click();
+      }
+    });
+    
+    // New chat button handler
+    const newChatBtn = document.querySelector('.new-chat-btn');
+    newChatBtn.addEventListener('click', function() {
+      // Clear chat container
+      while (chatContainer.firstChild) {
+        chatContainer.removeChild(chatContainer.firstChild);
+      }
+      
+      // Show welcome message
+      welcomeMessage.style.display = 'block';
+      
+      // Clear input
+      userInput.value = '';
+      userInput.style.height = 'auto';
+      
+      // Update active chat
+      const activeChat = document.querySelector('.chat-item.active');
+      if (activeChat) {
+        activeChat.classList.remove('active');
+      }
+      
+      // Create new chat item
+      const newChat = document.createElement('div');
+      newChat.className = 'chat-item active';
+      
+      const title = document.createElement('div');
+      title.className = 'chat-item-title';
+      title.textContent = 'New Conversation';
+      
+      const preview = document.createElement('div');
+      preview.className = 'chat-item-preview';
+      preview.textContent = 'Start a new chat...';
+      
+      const time = document.createElement('div');
+      time.className = 'chat-item-time';
+      time.textContent = formatTime();
+      
+      newChat.appendChild(title);
+      newChat.appendChild(preview);
+      newChat.appendChild(time);
+      
+      // Add to top of chat list
+      const chatList = document.querySelector('.chat-list');
+      chatList.insertBefore(newChat, chatList.firstChild);
+    });
+    
+    // Chat item click handler
+    const chatItems = document.querySelectorAll('.chat-item');
+    chatItems.forEach(item => {
+      item.addEventListener('click', function() {
+        // Remove active class from all chat items
+        chatItems.forEach(chat => chat.classList.remove('active'));
+        
+        // Add active class to clicked item
+        this.classList.add('active');
+      });
+    });
   </script>
 </body>
 </html>
